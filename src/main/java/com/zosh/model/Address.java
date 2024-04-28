@@ -37,6 +37,9 @@ public class Address {
 	@JsonIgnore
 	private User user;
 
+	public Address() {
+	}
+
 	/**
 	 * Конструктор класса Address
 	 */

@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.zosh.config.JwtProvider;
 import com.zosh.exception.UserException;
+import com.zosh.model.Cart;
 import com.zosh.model.User;
 import com.zosh.repository.UserRepository;
 import com.zosh.request.LoginRequest;
 import com.zosh.response.AuthResponse;
+import com.zosh.service.CartService;
 import com.zosh.service.CustomeUserServiceImplementation;
 
 @RestController
@@ -33,15 +35,18 @@ public class AuthController {
 
 	private CustomeUserServiceImplementation customeUserService;
 
+	private CartService cartService;
+
 	/**
 	 * Конструктор класса AuthController
 	 */
 	public AuthController(UserRepository userRepository, JwtProvider jwtProvider, PasswordEncoder passwordEncoder,
-			CustomeUserServiceImplementation customeUserService) {
+			CustomeUserServiceImplementation customeUserService, CartService cartService) {
 		this.userRepository = userRepository;
 		this.jwtProvider = jwtProvider;
 		this.passwordEncoder = passwordEncoder;
 		this.customeUserService = customeUserService;
+		this.cartService = cartService;
 	}
 
 	@PostMapping("/signup")
@@ -66,6 +71,7 @@ public class AuthController {
 		createdUser.setLastName(lastName);
 
 		User savedUser = userRepository.save(createdUser);
+		Cart cart = cartService.createCart(savedUser);
 
 		Authentication authentication = new UsernamePasswordAuthenticationToken(savedUser.getEmail(),
 				savedUser.getPassword());

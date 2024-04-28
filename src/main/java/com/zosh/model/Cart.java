@@ -35,6 +35,17 @@ public class Cart {
 	public Cart() {
 	}
 
+	public Cart(Long id, User user, Set<CartItem> cartItems, double totalPrice, int totalItem, int totalDiscountedPrice,
+			int discount) {
+		this.id = id;
+		this.user = user;
+		this.cartItems = cartItems;
+		this.totalPrice = totalPrice;
+		this.totalItem = totalItem;
+		this.totalDiscountedPrice = totalDiscountedPrice;
+		this.discount = discount;
+	}
+
 	public Long getId() {
 		return id;
 	}
